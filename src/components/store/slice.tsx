@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IData, IDataItem } from '../../types';
+import { IDataItem } from '../utils/types';
 
 const initialState: IData = {
   title: 'Unknown',
@@ -12,15 +12,8 @@ const slice = createSlice({
   reducers: {
     setDataList(state, action) {
       const dataItem: IDataItem = {
-        name: action.payload.dataItem.name,
-        age: action.payload.dataItem.age,
         email: action.payload.dataItem.email,
-        password1: action.payload.dataItem.password1,
-        password2: action.payload.dataItem.password2,
-        gender: action.payload.dataItem.gender,
-        accept: action.payload.dataItem.accept,
-        img: action.payload.dataItem.img,
-        country: action.payload.dataItem.country,
+        password: action.payload.dataItem.password,
       };
       state.dataList.push(dataItem);
     },
