@@ -1,10 +1,10 @@
-//import './Playground.css';
-//import { Link } from 'react-router-dom';
 //import React, { useState } from 'react';
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import Header from "../Header/Header";
 import { url, query, variables, IReqHeader } from "./../utils/types";
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import './Playground.css';
 
 function Playground() {
   const initReqHeaders = [];
@@ -76,25 +76,35 @@ function Playground() {
   };
 
   return (
-    <div className="playground">
+    <main className="playground">
       <Header />
       <h1>Playground</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-endpoint">
-          <label htmlFor="endpoint">Endpoint</label>
-          <input id="endpoint" type="text" defaultValue={url} {...register('endpoint')} />
+      <form className="editor-viewer" onSubmit={handleSubmit(onSubmit)}>
+        <div className="buttons">
+          <button onClick={onClickPrettifyQuery}>Prettify query</button>
+          <button>Doc</button>
+          <button type="submit">Run</button>
         </div>
-        <textarea {...register('query')}><pre>{query}</pre></textarea>
-        <button onClick={onClickPrettifyQuery}>Prettify query</button>
+        <div className="editor">
+          <div className="input-endpoint">
+            <label htmlFor="endpoint">Endpoint</label>
+            <input id="endpoint" type="text" defaultValue={url} {...register('endpoint')} />
+          </div>
+          <div className="req-headers-wrapper">
+            <div className="req-headers-title">Headers
+              <button onClick={addReqHeader}>Add header</button>
+            </div>
+            <div className="req-headers" {...register('reqHeaders')}>
+              {reqHeadersEl}
+            </div>
+          </div>
+          <textarea className="query" {...register('query')}><pre>{query}</pre></textarea>
+          <textarea className="variables" {...register('variables')}><pre>{variables}</pre></textarea>
+        </div>
         <textarea className="viewer" value={dataViewer}><pre></pre></textarea>
-        <div className="req-headers" {...register('reqHeaders')}>
-          {reqHeadersEl}
-          <button onClick={addReqHeader}>Add header</button>
-        </div>
-        <textarea {...register('variables')}><pre>{variables}</pre></textarea>
-        <input type="submit" />
       </form>
-    </div>
+      <Footer />
+    </main>
   );
 }
 

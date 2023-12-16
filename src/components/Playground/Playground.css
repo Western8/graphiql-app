@@ -1,0 +1,75 @@
+form {
+  width: 100%;
+}
+
+.editor-viewer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 80vh;
+  gap: 10px;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  gap: 10px;
+}
+
+.input-endpoint {
+  display: flex;
+  gap: 20px;
+}
+
+#endpoint {
+  flex-grow: 1;
+}
+
+.req-headers-wrapper {
+  display: flex;
+}
+
+.req-headers-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.req-headers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+  gap: 3px;
+}
+
+.req-headers input {
+  flex-grow: 1;
+}
+
+.req-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  /* gap: 2px; */
+}
+
+.query {
+  width: 100%;
+  flex-grow: 1;
+}
+
+.variables {
+  max-height: 200px;
+  width: 100%;
+}
+
+.viewer {
+  width: 45%;
+}

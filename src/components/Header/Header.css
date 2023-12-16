@@ -1,0 +1,23 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 30px;
+  background-color: var(--color-background-dark1);
+}
+
+.header-small {
+  padding: 0px 30px;
+  font-size: 14px;
+  background-color: var(--color-background-dark2);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  margin-right: 50px;
+}

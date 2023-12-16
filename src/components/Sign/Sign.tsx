@@ -9,6 +9,8 @@ import { auth, fbLogIn, fbRegister } from './../utils/firebase';
 import { yupResolver } from '@hookform/resolvers/yup';
 import schema from './../utils/yup';
 import { IDataItem } from '../utils/types';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 function Sign( { isSignUp }) {
   const dispatch = useAppDispatch();
@@ -50,7 +52,8 @@ function Sign( { isSignUp }) {
   };
 
   return (
-    <div className="sign">
+    <section className="sign">
+      <Header />
       <h1>{`${isSignUp ? 'Sign up' : 'Sign in'}`}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="input-email">
@@ -65,7 +68,8 @@ function Sign( { isSignUp }) {
         </div>
         <input type="submit" />
       </form>
-    </div>
+      <Footer />
+    </section>
   );
 }
 
