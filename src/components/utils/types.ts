@@ -1,3 +1,8 @@
+export interface IReqHeader {
+  key: string;
+  value: string;
+}
+
 export interface IDataItem {
   email: string;
   password: string;
@@ -9,19 +14,30 @@ export interface IDataProps {
 }
 
 //export const url = "https://rickandmortyapi.com/graphql";
-export const url = "https://countries.trevorblades.com/";
-
-export const query1 = `
-  query {locations {
-      results {
-        id name type created
-      }
-    }
-  }
-`;
 //export const query = "query {locations {results {id name type created } } } ";
-
+export const url = "https://countries.trevorblades.com/";
 export const query = `
+  query ($filter: CountryFilterInput) {
+    countries(filter: $filter) {
+      name
+      code
+      capital
+      currency
+    }
+}
+`;
+export const variables = `
+{
+  "filter": {
+  	"currency": {
+	    "eq": "EUR"
+	  }
+	}
+}
+`;
+
+
+export const queryDoc = `
 fragment FullType on __Type {
   kind
   name

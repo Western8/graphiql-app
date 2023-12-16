@@ -1,33 +1,76 @@
 //import './Playground.css';
 //import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import schema from './../utils/yup';
+//import React, { useState } from 'react';
+import { useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 import Header from "../Header/Header";
-import { url, query } from "./../utils/types";
+import { url, query, variables, IReqHeader } from "./../utils/types";
 
 function Playground() {
+  const initReqHeaders = [];
+  initReqHeaders.push({ key: 'Content-type', value: 'application/json' });
+
   const {
     register,
     handleSubmit,
     setValue,
     getValues,
-    formState: { errors },
-  } = useForm();
+    control,
+    // formState: { errors },
+  } = useForm({
+    defaultValues: {
+      reqHeaders: initReqHeaders,
+      query,
+      variables,
+      endpoint: url,
+    }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: 'reqHeaders',
+    control
+  });
 
   const [dataViewer, setDataViewer] = useState('');
-  const refEditor = React.useRef<HTMLInputElement>(null);
+  //  const [reqHeaders, setHeadersList] = useState(initReqHeaders);
+
+  const reqHeadersEl = fields.map((item, index) => {
+    return (
+      <div className="req-header" key={item.id}>
+        <input placeholder="header-key" {...register(`reqHeaders.${index}.key`)} />
+        <input placeholder="header-value" {...register(`reqHeaders.${index}.value`)} />
+        <button onClick={() => remove(index)}>X</button>
+      </div>
+    )
+  });
+
+  function addReqHeader() {
+    append({
+      key: '',
+      value: '',
+    })
+  };
 
   function onClickPrettifyQuery() {
-    const queryPrettifyed = prettify(getValues('editor'));
-    setValue('editor', queryPrettifyed);
+    const queryPrettified = prettify(getValues('query'));
+    setValue('query', queryPrettified);
+    const variablesPrettified = prettify(getValues('variables'));
+    setValue('variables', variablesPrettified);
   }
 
   const onSubmit = async (data) => {
-    console.log('data.endpoint ', data.endpoint);
-    console.log('data.editor ', data.editor);
-    const res = await makeRequest(data.endpoint, data.editor);
+    const reqHeadersObj: HeadersInit = {};
+    //const reqHeadersObj = data.reqHeaders.reduce((acum, item: IReqHeader) => { acum[item.key] = item.value }, acc);
+    data.reqHeaders.forEach((item: IReqHeader) => {
+      reqHeadersObj[item.key] = item.value;
+    });
+    let variables = data.variables;
+    if (variables.trim() === '') {
+      variables = '{}';
+    }
+    //console.log('data.endpoint ', data.endpoint);
+    //console.log('data.query ', data.query);
+    const res = await makeRequest(data.endpoint, reqHeadersObj, data.query, variables);
     console.log('res.data ', res.data);
     setDataViewer(prettify(JSON.stringify(res.data)));
   };
@@ -41,27 +84,35 @@ function Playground() {
           <label htmlFor="endpoint">Endpoint</label>
           <input id="endpoint" type="text" defaultValue={url} {...register('endpoint')} />
         </div>
-        <textarea ref={refEditor} {...register('editor')}>{query}</textarea>
+        <textarea {...register('query')}><pre>{query}</pre></textarea>
         <button onClick={onClickPrettifyQuery}>Prettify query</button>
-        <textarea className="viewer" value={dataViewer}></textarea>
+        <textarea className="viewer" value={dataViewer}><pre></pre></textarea>
+        <div className="req-headers" {...register('reqHeaders')}>
+          {reqHeadersEl}
+          <button onClick={addReqHeader}>Add header</button>
+        </div>
+        <textarea {...register('variables')}><pre>{variables}</pre></textarea>
         <input type="submit" />
       </form>
     </div>
   );
 }
 
-function makeRequest(url: string, query: string) {
+function makeRequest(url: string, headers: HeadersInit, query: string, variables: string) {
   return fetch(url, {
     method: "POST",
-    headers: {
-      "Content-type": "application/json"
-    },
-    body: JSON.stringify({ query }),
+    headers,
+    body: JSON.stringify({
+      query,
+      variables: JSON.parse(variables)
+    }),
   }).then(res => res.json());
 }
 
 function prettify(str: string) {
-  const ident = (level: number) => '\u00A0'.repeat(level * 2);
+  if (!str) return str;
+  // const ident = (level: number) => '\u00A0'.repeat(level * 2);
+  const ident = (level: number) => ' '.repeat(level * 2);
   const newLineChar = '{},[]';
   const spaceChar = ':';
   let arr = str.replaceAll('\n', ' ').split(' ');
@@ -74,7 +125,8 @@ function prettify(str: string) {
       itemNew = `${item}\n${ident(level)}`;
     }
     if (spaceChar.includes(item)) {
-      itemNew = `${itemNew}\u00A0`;
+      // itemNew = `${itemNew}\u00A0`;
+      itemNew = `${itemNew} `;
     }
     if (item === '{' || item === '[') {
       level += 1;
@@ -85,7 +137,6 @@ function prettify(str: string) {
       if (arr[index + 1] !== ',') {
         itemNew = `${itemNew}\n${ident(level)}`;
       }
-
     }
     arrNew.push(itemNew);
   });
