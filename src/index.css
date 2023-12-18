@@ -5,10 +5,13 @@
   
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
+  --color-text: #FFFFFF;
+  --color-link: #646cff;
+  --color-link-hover: #8d92eb;
   --color-background: #2779A7;
-  --color-background-dark1: #134e70;
-  --color-background-dark2: #114261;
-  --color-textarea: #aad2e9;
+  --color-background-dark1: linear-gradient(21deg, #750a79, #134e70);
+  --color-background-dark2: linear-gradient(21deg, #47084b, #092f47);
+  --color-textarea: #bde5fc;
   --color-btn: #FBEEC1;
   --color-btn-hover: #8D8741;
   /* background-color: #242424; */
@@ -21,11 +24,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color-text);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--color-link-hover);
 }
 
 html {
@@ -69,8 +72,19 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.btn-small {
+  min-width: 120px;
+  padding: 0.2em 2em;
+/*   margin: 0.3em; */
+}
+
+.btn-del {
+  padding: 0.2em 0.6em;
+}
+
 input {
   font-size: 16px;
+  background-color: var(--color-textarea);
 }
 
 .link {
@@ -86,6 +100,10 @@ input {
 
 textarea {
   background-color: var(--color-textarea);
+}
+
+.hidden {
+  display: none;
 }
 /*
 @media (prefers-color-scheme: light) {

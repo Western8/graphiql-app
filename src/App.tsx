@@ -11,10 +11,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/*
-        <Route path="/unctrl" element={<FormUnctrl />} />
-        <Route path="/ctrl" element={<FormCtrl />} />
-*/}
         <Route path="/signup" element={<Sign isSignUp={true} />} />
         <Route path="/signin" element={<Sign isSignUp={false} />} />
         <Route path="/playground" element={<Playground />} />

@@ -1,4 +1,3 @@
-//import './Sign.css';
 //import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +10,7 @@ import schema from './../utils/yup';
 import { IDataItem } from '../utils/types';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import './Sign.css';
 
 function Sign( { isSignUp }) {
   const dispatch = useAppDispatch();
@@ -55,18 +55,18 @@ function Sign( { isSignUp }) {
     <section className="sign">
       <Header />
       <h1>{`${isSignUp ? 'Sign up' : 'Sign in'}`}</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="form-sign" onSubmit={handleSubmit(onSubmit)}>
         <div className="input-email">
-          <label htmlFor="email">E-mail</label>
+          <label htmlFor="email">E-mail :</label>
           <input id="email" type="text" {...register('email')} />
           <p>{errors.email?.message}</p>
         </div>
         <div className="input-password">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password :</label>
           <input id="password" type="password" {...register('password')} />
           <p>{errors.password?.message}</p>
         </div>
-        <input type="submit" />
+        <button type="submit">Submit</button>
       </form>
       <Footer />
     </section>

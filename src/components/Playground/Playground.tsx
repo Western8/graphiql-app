@@ -32,6 +32,8 @@ function Playground() {
   });
 
   const [dataViewer, setDataViewer] = useState('');
+  const [isReqHeadersVisible, setIsReqHeadersVisible] = useState(false);
+  const [isVariablesVisible, setIsVariablesVisible] = useState(false);
   //  const [reqHeaders, setHeadersList] = useState(initReqHeaders);
 
   const reqHeadersEl = fields.map((item, index) => {
@@ -39,7 +41,7 @@ function Playground() {
       <div className="req-header" key={item.id}>
         <input placeholder="header-key" {...register(`reqHeaders.${index}.key`)} />
         <input placeholder="header-value" {...register(`reqHeaders.${index}.value`)} />
-        <button onClick={() => remove(index)}>X</button>
+        <button className="btn-del" onClick={() => remove(index)}>X</button>
       </div>
     )
   });
@@ -49,6 +51,14 @@ function Playground() {
       key: '',
       value: '',
     })
+  };
+
+  function showReqHeaders() {
+    setIsReqHeadersVisible(!isReqHeadersVisible);
+  };
+
+  function showVariables() {
+    setIsVariablesVisible(!isVariablesVisible);
   };
 
   function onClickPrettifyQuery() {
@@ -78,7 +88,7 @@ function Playground() {
   return (
     <main className="playground">
       <Header />
-      <h1>Playground</h1>
+      <h2>Playground</h2>
       <form className="editor-viewer" onSubmit={handleSubmit(onSubmit)}>
         <div className="buttons">
           <button onClick={onClickPrettifyQuery}>Prettify query</button>
@@ -87,19 +97,25 @@ function Playground() {
         </div>
         <div className="editor">
           <div className="input-endpoint">
-            <label htmlFor="endpoint">Endpoint</label>
+            <label className="input-title" htmlFor="endpoint">Endpoint:</label>
             <input id="endpoint" type="text" defaultValue={url} {...register('endpoint')} />
           </div>
           <div className="req-headers-wrapper">
-            <div className="req-headers-title">Headers
-              <button onClick={addReqHeader}>Add header</button>
+            <div className="req-headers-title">
+              <span className="input-title req-headers-text">Headers:</span>
+              <button className="btn-small" onClick={showReqHeaders}>{isReqHeadersVisible ? 'Hide' : 'Show'}</button>
+              <button className={`btn-small ${isReqHeadersVisible ? '' : 'hidden'}`} onClick={addReqHeader}>Add</button>
             </div>
-            <div className="req-headers" {...register('reqHeaders')}>
+            <div className={`req-headers ${isReqHeadersVisible ? '' : 'hidden'}`} {...register('reqHeaders')}>
               {reqHeadersEl}
             </div>
           </div>
+          <div className="variables-title">
+            <span className="input-title variables-text">Variables:</span>
+            <button className="btn-small" onClick={showVariables}>{isVariablesVisible ? 'Hide' : 'Show'}</button>
+          </div>
+          <textarea className={`variables ${isVariablesVisible ? '' : 'hidden'}`} {...register('variables')}><pre>{variables}</pre></textarea>
           <textarea className="query" {...register('query')}><pre>{query}</pre></textarea>
-          <textarea className="variables" {...register('variables')}><pre>{variables}</pre></textarea>
         </div>
         <textarea className="viewer" value={dataViewer}><pre></pre></textarea>
       </form>
