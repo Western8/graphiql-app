@@ -4,14 +4,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 88%;
   gap: 50px;
 }
 
+.form-sign-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .form-sign {
-  width: 80%;
+  /* width: 80%; */
   max-width: 500px;
-  padding: 40px 10px;
-  gap: 130px;
+  padding: 40px 50px;
+  /* gap: 130px; */
   border-radius: 20px;
   font-size: 24px;
   background: var(--color-background-dark1);

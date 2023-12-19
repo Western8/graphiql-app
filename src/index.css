@@ -6,6 +6,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   --color-text: #FFFFFF;
+  --color-text-dark: #000000;
   --color-link: #646cff;
   --color-link-hover: #8d92eb;
   --color-background: #2779A7;

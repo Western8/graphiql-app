@@ -12,7 +12,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import './Sign.css';
 
-function Sign( { isSignUp }) {
+function Sign({ isSignUp }) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //const [ isSignUp, setIsSignUp ] = useState(false);
@@ -45,7 +45,7 @@ function Sign( { isSignUp }) {
     } else {
       fbLogIn(data.email, data.password);
     }
-    
+
 
     //dispatch(setDataList({ dataItem }));
     //navigate('/', { replace: true });
@@ -55,19 +55,21 @@ function Sign( { isSignUp }) {
     <section className="sign">
       <Header />
       <h1>{`${isSignUp ? 'Sign up' : 'Sign in'}`}</h1>
-      <form className="form-sign" onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-email">
-          <label htmlFor="email">E-mail :</label>
-          <input id="email" type="text" {...register('email')} />
-          <p>{errors.email?.message}</p>
-        </div>
-        <div className="input-password">
-          <label htmlFor="password">Password :</label>
-          <input id="password" type="password" {...register('password')} />
-          <p>{errors.password?.message}</p>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+      <div className="form-sign-wrapper">
+        <form className="form-sign" onSubmit={handleSubmit(onSubmit)}>
+          <div className="input-email">
+            <label htmlFor="email">E-mail :</label>
+            <input id="email" type="text" {...register('email')} />
+            <p>{errors.email?.message}</p>
+          </div>
+          <div className="input-password">
+            <label htmlFor="password">Password :</label>
+            <input id="password" type="password" {...register('password')} />
+            <p>{errors.password?.message}</p>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
       <Footer />
     </section>
   );

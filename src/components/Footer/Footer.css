@@ -1,5 +1,13 @@
 footer {
+  flex-grow: 0;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 100%;
+  margin-top: 10px;
+}
+
+footer .links-github {
+  display: flex;
+  align-items: center;
 }

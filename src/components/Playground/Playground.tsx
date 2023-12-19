@@ -88,9 +88,9 @@ function Playground() {
   return (
     <main className="playground">
       <Header />
-      <h2>Playground</h2>
       <form className="editor-viewer" onSubmit={handleSubmit(onSubmit)}>
         <div className="buttons">
+          <h2>Playground</h2>
           <button onClick={onClickPrettifyQuery}>Prettify query</button>
           <button>Doc</button>
           <button type="submit">Run</button>
