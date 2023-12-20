@@ -44,3 +44,9 @@
   justify-content: flex-start;
   align-items: center;
 }
+
+.error {
+  color: var(--color-error);
+  margin-left: 20px;
+  text-align: start;
+}

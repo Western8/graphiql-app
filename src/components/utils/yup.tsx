@@ -1,14 +1,29 @@
 import * as yup from 'yup';
+import { setLocale } from 'yup';
+
+/*
+setLocale({
+  // use constant translation keys for messages without values
+  mixed: {
+    default: 'field_invalid',
+  },
+  // use functions to generate an error object that includes the value from the schema
+  string: {
+    min: ({ min }) => ({ key: 'field_min_length', values: { min } }),
+    //max: ({ max }) => ({ key: 'field_too_big', values: { max } }),
+  },
+});
+*/
 
 const schema = yup.object().shape({
-  email: yup.string().email().required('E-mail is a required field'),
+  email: yup.string().email().required('yupEmailRequired'),
   password: yup
     .string()
-    .matches(/[A-Za-z]/, 'Password must contain one letter')
-    .matches(/[@$!%*#?&]+/, 'Password must contain one special character')
-    .matches(/\d+/, 'Password must contain one number')
-    .min(8, 'Password must contain at least 8 characters')
-    .required('Password is a required field'),
+    .required('yupPasswordRequired')
+    .min(8, 'yupPasswordMin')
+    .matches(/[A-Za-z]/, 'yupPasswordLetter')
+    .matches(/[@$!%*#?&]+/, 'yupPasswordCharacter')
+    .matches(/\d+/, 'yupPasswordNumber'),
 });
 
 export default schema;

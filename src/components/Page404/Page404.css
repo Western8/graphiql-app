@@ -1,0 +1,13 @@
+.page404 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 88%;
+  margin-top: 100px;
+  flex-grow: 1;
+}
+
+.page404 h1 {
+  flex-grow: 1;
+}

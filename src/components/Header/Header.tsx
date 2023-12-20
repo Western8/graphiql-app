@@ -31,7 +31,10 @@ function Header() {
     const keys = Object.keys(locale);
     let ind = keys.indexOf(useLocale.id) + 1;
     if (ind >= keys.length) ind = 0;
-    setLocale(locale[keys.at(ind)]);
+    const idLocale = keys.at(ind);
+    if (idLocale) {
+      setLocale(locale[idLocale]);
+    }
   }
 
   return (

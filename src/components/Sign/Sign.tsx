@@ -60,13 +60,14 @@ function Sign({ isSignUp }) {
           <div className="input-email">
             <label htmlFor="email">{useLocale.email}</label>
             <input id="email" type="text" {...register('email')} />
-            <p>{errors.email?.message}</p>
           </div>
+          <div className="error">{useLocale[errors.email?.message]}</div>
           <div className="input-password">
             <label htmlFor="password">{useLocale.password}</label>
             <input id="password" type="password" {...register('password')} />
-            <p>{errors.password?.message}</p>
           </div>
+          {/* <div className="error">{errors.password?.message}</div> */}
+          <div className="error">{useLocale[errors.password?.message]}</div>
           <button type="submit">{useLocale.submit}</button>
         </form>
       </div>

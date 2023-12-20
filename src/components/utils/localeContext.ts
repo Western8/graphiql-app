@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { ILocale } from "./types";
 
-export const localeEn = {
+export const localeEn: ILocale = {
   id: 'en',
   name: 'En',
   prettify: 'Prettify query',
@@ -26,9 +27,16 @@ export const localeEn = {
   show: 'Show',
   hide: 'Hide',
   add: 'Add',
+  text404: 'Oooops... This page doesn\'t exist!',
+  yupEmailRequired: 'E-mail is a required field',
+  yupPasswordRequired: 'Password is a required field',
+  yupPasswordMin: 'Password must contain at least 8 characters',
+  yupPasswordLetter: 'Password must contain one letter',
+  yupPasswordCharacter: 'Password must contain one special character',
+  yupPasswordNumber: 'Password must contain one number',
 }
 
-export const localeRu = {
+export const localeRu: ILocale = {
   id: 'ru',
   name: 'Ru',
   prettify: 'Форматировать',
@@ -54,6 +62,13 @@ export const localeRu = {
   show: 'Показать',
   hide: 'Скрыть',
   add: 'Добавить',
+  text404: 'Упс... Эта страница не существует у нас.',
+  yupEmailRequired: 'Адрес электронной почты обязателен для заполнения',
+  yupPasswordRequired: 'Пароль обязателен для заполнения',
+  yupPasswordMin: 'Пароль должен содержать как минимум 8 символов',
+  yupPasswordLetter: 'Пароль должен содержать как минимум 1 букву',
+  yupPasswordCharacter: 'Пароль должен содержать как минимум 1 специальный символ',
+  yupPasswordNumber: 'Пароль должен содержать как минимум 1 цифру',
 }
 
 export const locale = {
@@ -61,4 +76,9 @@ export const locale = {
   "ru": localeRu,
 }
 
-export const LocaleContext = React.createContext( { useLocale: locale['en'], setLocale: () => {} });
+interface ILocaleContext {
+  useLocale: ILocale;
+  setLocale: Dispatch<SetStateAction<ILocale>>;
+}
+
+export const LocaleContext = React.createContext<ILocaleContext>( { useLocale: locale['en'], setLocale: () => {} });
