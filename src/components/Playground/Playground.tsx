@@ -1,7 +1,9 @@
 //import React, { useState } from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { LocaleContext } from '../utils/localeContext';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { url, query, variables, IReqHeader } from "./../utils/types";
+import { IReqHeader } from "./../utils/types";
+import { url, query, queryDoc, variables } from "./../utils/const";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import './Playground.css';
@@ -32,15 +34,18 @@ function Playground() {
   });
 
   const [dataViewer, setDataViewer] = useState('');
+  const [dataDoc, setDataDoc] = useState('');
+  const [isDocVisible, setIsDocVisible] = useState(true);
   const [isReqHeadersVisible, setIsReqHeadersVisible] = useState(false);
   const [isVariablesVisible, setIsVariablesVisible] = useState(false);
+  const { useLocale } = useContext(LocaleContext);
   //  const [reqHeaders, setHeadersList] = useState(initReqHeaders);
 
   const reqHeadersEl = fields.map((item, index) => {
     return (
       <div className="req-header" key={item.id}>
-        <input placeholder="header-key" {...register(`reqHeaders.${index}.key`)} />
-        <input placeholder="header-value" {...register(`reqHeaders.${index}.value`)} />
+        <input placeholder={useLocale.headerKey} {...register(`reqHeaders.${index}.key`)} />
+        <input placeholder={useLocale.headerValue} {...register(`reqHeaders.${index}.value`)} />
         <button className="btn-del" onClick={() => remove(index)}>X</button>
       </div>
     )
@@ -68,6 +73,24 @@ function Playground() {
     setValue('variables', variablesPrettified);
   }
 
+  async function getDoc(data) {
+    if (isDocVisible) {
+      setIsDocVisible(false);
+    } else {
+      const reqHeadersObj: HeadersInit = {};
+      data.reqHeaders.forEach((item: IReqHeader) => {
+        reqHeadersObj[item.key] = item.value;
+      });
+      let variables = data.variables;
+      if (variables.trim() === '') {
+        variables = '{}';
+      }
+      const res = await makeRequest(data.endpoint, reqHeadersObj, queryDoc, variables);
+      setDataDoc(prettify(JSON.stringify(res.data)));
+      setIsDocVisible(true);
+    }
+  };
+
   const onSubmit = async (data) => {
     const reqHeadersObj: HeadersInit = {};
     //const reqHeadersObj = data.reqHeaders.reduce((acum, item: IReqHeader) => { acum[item.key] = item.value }, acc);
@@ -90,29 +113,30 @@ function Playground() {
       <Header />
       <form className="editor-viewer" onSubmit={handleSubmit(onSubmit)}>
         <div className="buttons">
-          <h2>Playground</h2>
-          <button onClick={onClickPrettifyQuery}>Prettify query</button>
-          <button>Doc</button>
+          <h2>{useLocale.playground}</h2>
+          <button onClick={onClickPrettifyQuery}>{useLocale.prettify}</button>
+          <button className={isDocVisible ? 'btn-pushed' : ''} onClick={getDoc}>{useLocale.doc}</button>
           <button type="submit">Run</button>
         </div>
+        <div className={`doc ${isDocVisible ? '' : 'hidden'}`}>1111{dataDoc}</div>
         <div className="editor">
           <div className="input-endpoint">
-            <label className="input-title" htmlFor="endpoint">Endpoint:</label>
+            <label className="input-title" htmlFor="endpoint">{useLocale.endpoint}</label>
             <input id="endpoint" type="text" defaultValue={url} {...register('endpoint')} />
           </div>
           <div className="req-headers-wrapper">
             <div className="req-headers-title">
-              <span className="input-title req-headers-text">Headers:</span>
-              <button className="btn-small" onClick={showReqHeaders}>{isReqHeadersVisible ? 'Hide' : 'Show'}</button>
-              <button className={`btn-small ${isReqHeadersVisible ? '' : 'hidden'}`} onClick={addReqHeader}>Add</button>
+              <span className="input-title req-headers-text">{useLocale.headers}</span>
+              <button className="btn-small" onClick={showReqHeaders}>{isReqHeadersVisible ? useLocale.hide : useLocale.show}</button>
+              <button className={`btn-small ${isReqHeadersVisible ? '' : 'hidden'}`} onClick={addReqHeader}>{useLocale.add}</button>
             </div>
             <div className={`req-headers ${isReqHeadersVisible ? '' : 'hidden'}`} {...register('reqHeaders')}>
               {reqHeadersEl}
             </div>
           </div>
           <div className="variables-title">
-            <span className="input-title variables-text">Variables:</span>
-            <button className="btn-small" onClick={showVariables}>{isVariablesVisible ? 'Hide' : 'Show'}</button>
+            <span className="input-title variables-text">{useLocale.variables}</span>
+            <button className="btn-small" onClick={showVariables}>{isVariablesVisible ? useLocale.hide : useLocale.show}</button>
           </div>
           <textarea className={`variables ${isVariablesVisible ? '' : 'hidden'}`} {...register('variables')}><pre>{variables}</pre></textarea>
           <textarea className="query" {...register('query')}><pre>{query}</pre></textarea>
@@ -137,7 +161,6 @@ function makeRequest(url: string, headers: HeadersInit, query: string, variables
 
 function prettify(str: string) {
   if (!str) return str;
-  // const ident = (level: number) => '\u00A0'.repeat(level * 2);
   const ident = (level: number) => ' '.repeat(level * 2);
   const newLineChar = '{},[]';
   const spaceChar = ':';
@@ -151,8 +174,7 @@ function prettify(str: string) {
       itemNew = `${item}\n${ident(level)}`;
     }
     if (spaceChar.includes(item)) {
-      // itemNew = `${itemNew}\u00A0`;
-      itemNew = `${itemNew} `;
+      itemNew = `${itemNew} `; //\u00A0
     }
     if (item === '{' || item === '[') {
       level += 1;

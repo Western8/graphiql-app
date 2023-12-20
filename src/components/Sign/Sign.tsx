@@ -1,7 +1,8 @@
 //import { Link } from 'react-router-dom';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store/hooks';
+import { LocaleContext } from '../utils/localeContext';
+// import { useAppDispatch } from '../store/hooks';
 import { useForm } from 'react-hook-form';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fbLogIn, fbRegister } from './../utils/firebase';
@@ -13,9 +14,9 @@ import Footer from '../Footer/Footer';
 import './Sign.css';
 
 function Sign({ isSignUp }) {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  //const [ isSignUp, setIsSignUp ] = useState(false);
+  const { useLocale } = useContext(LocaleContext);
 
   const {
     register,
@@ -27,7 +28,6 @@ function Sign({ isSignUp }) {
 
   useEffect(() => {
     if (user) {
-      // console.log('1111111111 user', user);
       navigate('/playground', { replace: true });
     }
   }, [user]);
@@ -54,20 +54,20 @@ function Sign({ isSignUp }) {
   return (
     <section className="sign">
       <Header />
-      <h1>{`${isSignUp ? 'Sign up' : 'Sign in'}`}</h1>
+      <h1>{`${isSignUp ? useLocale.signUp : useLocale.signIn}`}</h1>
       <div className="form-sign-wrapper">
         <form className="form-sign" onSubmit={handleSubmit(onSubmit)}>
           <div className="input-email">
-            <label htmlFor="email">E-mail :</label>
+            <label htmlFor="email">{useLocale.email}</label>
             <input id="email" type="text" {...register('email')} />
             <p>{errors.email?.message}</p>
           </div>
           <div className="input-password">
-            <label htmlFor="password">Password :</label>
+            <label htmlFor="password">{useLocale.password}</label>
             <input id="password" type="password" {...register('password')} />
             <p>{errors.password?.message}</p>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit">{useLocale.submit}</button>
         </form>
       </div>
       <Footer />

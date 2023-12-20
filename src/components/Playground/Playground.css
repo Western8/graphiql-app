@@ -23,6 +23,12 @@ form {
   gap: 10px;
 }
 
+.btn-pushed {
+  -webkit-box-shadow: 0px 0px 8px 8px rgba(78, 78, 31, 0.56) inset;
+  -moz-box-shadow: 0px 0px 8px 8px rgba(78, 78, 31, 0.56) inset;
+  box-shadow: 0px 0px 8px 8px rgba(78, 78, 31, 0.56) inset;
+}
+
 .editor {
   display: flex;
   flex-direction: column;
@@ -40,7 +46,7 @@ form {
 }
 
 .input-title {
-  min-width: 80px;
+  min-width: 100px;
   text-align: left;
 }
 
