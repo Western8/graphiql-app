@@ -37,7 +37,7 @@ export const db = getFirestore(app);
 export const fbRegister = async (email: string, password: string) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    console.log('1111111111111111 res', res);    
+    console.log('1111111111111111 res', res);
     const user = res.user;
     await addDoc(collection(db, "users"), {
       uid: user.uid,
@@ -46,7 +46,8 @@ export const fbRegister = async (email: string, password: string) => {
       email,
     });
   } catch (err) {
-    console.error(err);
+    console.error('11111 err', err);
+    return err;
   }
 };
 
@@ -54,7 +55,8 @@ export const fbLogIn = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
-    console.error(err);
+    console.error('11111 err', err);
+    return err;
   }
 };
 

@@ -1,11 +1,11 @@
-//import React, { useState } from 'react';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { LocaleContext } from '../utils/localeContext';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { IReqHeader } from "./../utils/types";
 import { url, query, queryDoc, variables } from "./../utils/const";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Popup from '../Popup/Popup';
 import './Playground.css';
 
 function Playground() {
@@ -28,6 +28,9 @@ function Playground() {
     }
   });
 
+  const endpointRef = useRef<HTMLInputElement | null>(null);
+  const { ref } = register('endpoint');
+
   const { fields, append, remove } = useFieldArray({
     name: 'reqHeaders',
     control
@@ -35,11 +38,11 @@ function Playground() {
 
   const [dataViewer, setDataViewer] = useState('');
   const [dataDoc, setDataDoc] = useState('');
-  const [isDocVisible, setIsDocVisible] = useState(true);
+  const [isDocVisible, setIsDocVisible] = useState(false);
   const [isReqHeadersVisible, setIsReqHeadersVisible] = useState(false);
   const [isVariablesVisible, setIsVariablesVisible] = useState(false);
   const { useLocale } = useContext(LocaleContext);
-  //  const [reqHeaders, setHeadersList] = useState(initReqHeaders);
+  const [ popup, setPopup ] = useState('')
 
   const reqHeadersEl = fields.map((item, index) => {
     return (
@@ -73,27 +76,28 @@ function Playground() {
     setValue('variables', variablesPrettified);
   }
 
-  async function getDoc(data) {
+  async function getDoc() {
     if (isDocVisible) {
       setIsDocVisible(false);
     } else {
-      const reqHeadersObj: HeadersInit = {};
-      data.reqHeaders.forEach((item: IReqHeader) => {
-        reqHeadersObj[item.key] = item.value;
-      });
-      let variables = data.variables;
-      if (variables.trim() === '') {
-        variables = '{}';
+      const reqHeadersObj: HeadersInit = {
+        'Content-type': 'application/json'
+      };
+      if (endpointRef.current?.value) {
+        const res = await makeRequest(endpointRef.current.value, reqHeadersObj, queryDoc, '{}');
+        if (res.data) {
+          setDataDoc(prettify(JSON.stringify(res.data)));
+          setIsDocVisible(true);
+        } else if (res instanceof Error) {
+          setPopup(res.message);
+          setTimeout(setPopup, 5000, '');
+        }
       }
-      const res = await makeRequest(data.endpoint, reqHeadersObj, queryDoc, variables);
-      setDataDoc(prettify(JSON.stringify(res.data)));
-      setIsDocVisible(true);
     }
   };
 
   const onSubmit = async (data) => {
     const reqHeadersObj: HeadersInit = {};
-    //const reqHeadersObj = data.reqHeaders.reduce((acum, item: IReqHeader) => { acum[item.key] = item.value }, acc);
     data.reqHeaders.forEach((item: IReqHeader) => {
       reqHeadersObj[item.key] = item.value;
     });
@@ -103,9 +107,18 @@ function Playground() {
     }
     //console.log('data.endpoint ', data.endpoint);
     //console.log('data.query ', data.query);
-    const res = await makeRequest(data.endpoint, reqHeadersObj, data.query, variables);
-    console.log('res.data ', res.data);
-    setDataViewer(prettify(JSON.stringify(res.data)));
+    if (endpointRef.current?.value) {
+      const res = await makeRequest(endpointRef.current.value, reqHeadersObj, data.query, variables);
+      //console.log('res.data ', res.data);
+      if (res.data) {
+        setDataViewer(prettify(JSON.stringify(res.data)));
+      } else if (res.errors) {
+        setDataViewer(prettify(JSON.stringify(res.errors)));
+      } else if (res instanceof Error) {
+        setPopup(res.message);
+        setTimeout(setPopup, 5000, '');
+      }
+    }
   };
 
   return (
@@ -116,13 +129,17 @@ function Playground() {
           <h2>{useLocale.playground}</h2>
           <button onClick={onClickPrettifyQuery}>{useLocale.prettify}</button>
           <button className={isDocVisible ? 'btn-pushed' : ''} onClick={getDoc}>{useLocale.doc}</button>
-          <button type="submit">Run</button>
+          <button type="submit">{useLocale.run}</button>
         </div>
-        <div className={`doc ${isDocVisible ? '' : 'hidden'}`}>1111{dataDoc}</div>
+        <div className={`doc ${isDocVisible ? '' : 'hidden'}`}><pre>{dataDoc}</pre></div>
         <div className="editor">
           <div className="input-endpoint">
             <label className="input-title" htmlFor="endpoint">{useLocale.endpoint}</label>
-            <input id="endpoint" type="text" defaultValue={url} {...register('endpoint')} />
+            {/* <input id="endpoint" type="text" defaultValue={url} {...register('endpoint')} /> */}
+            <input id="endpoint" type="text" defaultValue={url} name="endpoint" ref={(e) => {
+              ref(e)
+              endpointRef.current = e
+            }} />
           </div>
           <div className="req-headers-wrapper">
             <div className="req-headers-title">
@@ -143,6 +160,7 @@ function Playground() {
         </div>
         <textarea className="viewer" value={dataViewer}><pre></pre></textarea>
       </form>
+      <Popup message={popup}/>
       <Footer />
     </main>
   );
@@ -156,7 +174,9 @@ function makeRequest(url: string, headers: HeadersInit, query: string, variables
       query,
       variables: JSON.parse(variables)
     }),
-  }).then(res => res.json());
+  })
+    .then(res => res.json())
+    .catch(err => err);
 }
 
 function prettify(str: string) {

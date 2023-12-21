@@ -42,7 +42,7 @@ export const localeRu: ILocale = {
   prettify: 'Форматировать',
   doc: 'Документация',
   run: 'Старт',
-  welcome: 'Добро пожаловать',
+  welcome: 'Главная',
   welcomeTitle: 'Добро пожаловать в приложение GraphiQL !',
   welcomeDesc: 'GraphiQL - песочница для выполнения graphQL-запросов.',
   playground: 'Песочница',

@@ -1,0 +1,37 @@
+.popup {
+  display: block;  
+  position: fixed;
+  /*
+  display: flex;
+  align-items: center;
+  */
+  min-width: 200px;
+  bottom: 0;
+  right: 0;
+  margin-right: 50px;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 22px;
+  box-shadow: 23px 24px 20px 0px rgba(34, 60, 80, 0.7);
+  background-color: var(--color-error);
+  opacity: 0;
+  transition: 1s;
+}
+
+.show-popup {
+  display: block;
+  opacity: 1;
+  transform: translateY(-50px);
+  transition: 1s;
+}
+
+/*
+.errorIcon {
+  width: 200px;
+  height: auto;
+}
+
+.textInfo {
+  text-align: center;
+}
+*/

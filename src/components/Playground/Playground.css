@@ -94,3 +94,12 @@ form {
 .viewer {
   width: 45%;
 }
+
+.doc {
+  width: 40%;
+  margin: 0px 5px;
+  padding: 10px;
+  text-align: start;
+  color: var(--color-text-dark);
+  background-color: var(--color-textarea);
+}

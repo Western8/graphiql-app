@@ -3,6 +3,23 @@ export interface IReqHeader {
   value: string;
 }
 
+export interface IPropsPopup {
+  message: string;
+}
+
+export interface IPrivateRouteProps {
+  isAuth: boolean;
+  authPath: string;
+  outlet: JSX.Element;
+};
+
+/*
+export interface IPropsPrivateRoute {
+  children: string;
+  hasAuth?: boolean;
+}
+*/
+
 export interface IDataItem {
   email: string;
   password: string;

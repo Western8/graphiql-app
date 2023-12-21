@@ -11,12 +11,14 @@ import schema from './../utils/yup';
 import { IDataItem } from '../utils/types';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Popup from '../Popup/Popup';
 import './Sign.css';
 
 function Sign({ isSignUp }) {
   // const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { useLocale } = useContext(LocaleContext);
+  const [popup, setPopup] = useState('')
 
   const {
     register,
@@ -32,19 +34,27 @@ function Sign({ isSignUp }) {
     }
   }, [user]);
 
-  const onSubmit = (data: IDataItem) => {
+  const onSubmit = async (data: IDataItem) => {
     /*
     const dataItem: IDataItem = {
       email: data.email,
       password: data.password,
     };
     */
-
     if (isSignUp) {
-      fbRegister(data.email, data.password);
+      const res = await fbRegister(data.email, data.password);
+      if (res instanceof Error) {
+        setPopup(res.message);
+        setTimeout(setPopup, 5000, '');
+      }
     } else {
-      fbLogIn(data.email, data.password);
+      const res = await fbLogIn(data.email, data.password);
+      if (res instanceof Error) {
+        setPopup(res.message);
+        setTimeout(setPopup, 5000, '');
+      }
     }
+
 
 
     //dispatch(setDataList({ dataItem }));
@@ -61,16 +71,17 @@ function Sign({ isSignUp }) {
             <label htmlFor="email">{useLocale.email}</label>
             <input id="email" type="text" {...register('email')} />
           </div>
-          <div className="error">{useLocale[errors.email?.message]}</div>
+          <div className="error">{useLocale[errors.email?.message] ? useLocale[errors.email?.message] : errors.email?.message}</div>
           <div className="input-password">
             <label htmlFor="password">{useLocale.password}</label>
             <input id="password" type="password" {...register('password')} />
           </div>
           {/* <div className="error">{errors.password?.message}</div> */}
-          <div className="error">{useLocale[errors.password?.message]}</div>
+          <div className="error">{useLocale[errors.password?.message] ? useLocale[errors.password?.message] : errors.password?.message}</div>
           <button type="submit">{useLocale.submit}</button>
         </form>
       </div>
+      <Popup message={popup} />
       <Footer />
     </section>
   );
