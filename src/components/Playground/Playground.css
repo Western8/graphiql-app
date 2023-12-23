@@ -3,6 +3,7 @@ main {
   display: flex;
   flex-direction: column;
   min-height: 88%;
+  padding: 10px;
 }
 
 form {
@@ -19,8 +20,15 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
   height: 80vh;
+  padding: 10px;
   gap: 10px;
+}
+
+.buttons button {
+  width: 100%;
+  max-width: 500px;
 }
 
 .btn-pushed {
@@ -60,6 +68,7 @@ form {
   display: flex;
   align-items: center;
   gap: 20px;
+  width: 100%;
 }
 
 .req-headers {
@@ -73,6 +82,7 @@ form {
 
 .req-headers input {
   flex-grow: 1;
+  width: 100%;
 }
 
 .req-header {
@@ -102,4 +112,42 @@ form {
   text-align: start;
   color: var(--color-text-dark);
   background-color: var(--color-textarea);
+}
+
+
+@media (max-width: 1024px) {
+  .editor-viewer {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .buttons {
+    height: auto;
+  }
+
+  .buttons h2 {
+    margin: 0px;
+  }
+
+  .editor,
+  .viewer,
+  .query,
+  .doc,
+  .variables {
+    width: auto;
+  }
+}
+
+
+@media (max-width: 420px) {
+  main {
+    margin-top: 140px;
+  }
+  
+  .input-endpoint,
+  .input-title,
+  .req-headers-title,
+  .variables-title {
+    gap: 3px;
+  }
 }

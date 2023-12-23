@@ -1,9 +1,10 @@
 .sign {
-  margin-top: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 100px;
+  padding: 10px;
   min-height: 88%;
   gap: 50px;
 }
@@ -17,7 +18,7 @@
 .form-sign {
   /* width: 80%; */
   max-width: 500px;
-  padding: 40px 50px;
+  padding: 40px;
   /* gap: 130px; */
   border-radius: 20px;
   font-size: 24px;
@@ -49,4 +50,30 @@
   color: var(--color-error);
   margin-left: 20px;
   text-align: start;
+}
+
+@media (max-width: 660px) {
+  .form-sign {
+    padding: 40px 20px;
+  }
+
+  .form-sign label {
+    min-width: 110px;
+    padding: 20px 0px;
+  }
+}
+
+@media (max-width: 420px) {
+  .sign {
+    margin-top: 140px;
+  }
+
+  .form-sign {
+    padding: 40px 5px;
+    font-size: 18px;
+  }
+
+  .form-sign label {
+    min-width: 90px;
+  }
 }
