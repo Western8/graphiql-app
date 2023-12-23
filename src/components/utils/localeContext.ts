@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { ILocale } from "./types";
+import React, { Dispatch, SetStateAction } from 'react';
+import { ILocale } from './types';
 
 export const localeEn: ILocale = {
   id: 'en',
@@ -17,7 +17,7 @@ export const localeEn: ILocale = {
   email: 'E-mail :',
   password: 'Password :',
   submit: 'Submit',
-  go: 'Let\'s go!',
+  go: "Let's go!",
   goPlayground: 'Go to Playground GraphiQL',
   endpoint: 'Endpoint:',
   variables: 'Variables:',
@@ -27,14 +27,14 @@ export const localeEn: ILocale = {
   show: 'Show',
   hide: 'Hide',
   add: 'Add',
-  text404: 'Oooops... This page doesn\'t exist!',
+  text404: "Oooops... This page doesn't exist!",
   yupEmailRequired: 'E-mail is a required field',
   yupPasswordRequired: 'Password is a required field',
   yupPasswordMin: 'Password must contain at least 8 characters',
   yupPasswordLetter: 'Password must contain one letter',
   yupPasswordCharacter: 'Password must contain one special character',
   yupPasswordNumber: 'Password must contain one number',
-}
+};
 
 export const localeRu: ILocale = {
   id: 'ru',
@@ -69,16 +69,19 @@ export const localeRu: ILocale = {
   yupPasswordLetter: 'Пароль должен содержать как минимум 1 букву',
   yupPasswordCharacter: 'Пароль должен содержать как минимум 1 специальный символ',
   yupPasswordNumber: 'Пароль должен содержать как минимум 1 цифру',
-}
+};
 
 export const locale = {
-  "en": localeEn,
-  "ru": localeRu,
-}
+  en: localeEn,
+  ru: localeRu,
+};
 
 interface ILocaleContext {
   useLocale: ILocale;
   setLocale: Dispatch<SetStateAction<ILocale>>;
 }
 
-export const LocaleContext = React.createContext<ILocaleContext>( { useLocale: locale['en'], setLocale: () => {} });
+export const LocaleContext = React.createContext<ILocaleContext>({
+  useLocale: locale['en'],
+  setLocale: () => {},
+});

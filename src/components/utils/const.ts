@@ -1,6 +1,4 @@
-//export const url = "https://rickandmortyapi.com/graphql";
-//export const query = "query {locations {results {id name type created } } } ";
-export const url = "https://countries.trevorblades.com/";
+export const url = 'https://countries.trevorblades.com/';
 export const query = `
   query ($filter: CountryFilterInput) {
     countries(filter: $filter) {

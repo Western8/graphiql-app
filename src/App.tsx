@@ -1,9 +1,8 @@
- import { useState } from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
-import { LocaleContext, localeEn, localeRu } from './components/utils/localeContext.ts';
-// import { locale } from './components/utils/localeContext.ts';
-import { useAuthState } from "react-firebase-hooks/auth";
+import { LocaleContext, localeEn } from './components/utils/localeContext.ts';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './components/utils/firebase';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.tsx';
 import Welcome from './components/Welcome/Welcome';
@@ -21,20 +20,23 @@ function App() {
     isAuth: Boolean(user),
     authPath: '/signin',
   };
-  
+
   return (
-    <LocaleContext.Provider value={ { useLocale, setLocale } }>
+    <LocaleContext.Provider value={{ useLocale, setLocale }}>
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<Sign isSignUp={true} />} />
           <Route path="/signin" element={<Sign isSignUp={false} />} />
-          <Route path='/playground' element={<PrivateRoute {...defaultPrivateRouteProps} outlet={<Playground />} />} />
+          <Route
+            path="/playground"
+            element={<PrivateRoute {...defaultPrivateRouteProps} outlet={<Playground />} />}
+          />
           <Route path="/" element={<Welcome />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
       </BrowserRouter>
     </LocaleContext.Provider>
-  )
+  );
 }
 
-export default App
+export default App;

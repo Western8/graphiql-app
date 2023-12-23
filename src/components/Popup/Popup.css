@@ -1,10 +1,6 @@
 .popup {
   display: block;  
   position: fixed;
-  /*
-  display: flex;
-  align-items: center;
-  */
   min-width: 200px;
   bottom: 0;
   right: 0;
@@ -24,14 +20,3 @@
   transform: translateY(-50px);
   transition: 1s;
 }
-
-/*
-.errorIcon {
-  width: 200px;
-  height: auto;
-}
-
-.textInfo {
-  text-align: center;
-}
-*/

@@ -12,7 +12,7 @@ interface ErrorState {
 class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
   constructor(props: ErrorProps) {
     super(props);
-    this.state = { 
+    this.state = {
       hasError: false,
       errorInfo: '',
     };

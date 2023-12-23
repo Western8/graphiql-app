@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 import { LocaleContext } from '../utils/localeContext';
-import Header from "../Header/Header";
+import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import './Page404.css';
 

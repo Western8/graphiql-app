@@ -2,10 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
-/*
-import { Provider } from 'react-redux';
-import store from './components/store/store';
-*/
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -14,4 +10,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <App />
     </ErrorBoundary>
   </React.StrictMode>
-)
+);

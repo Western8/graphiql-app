@@ -1,8 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LocaleContext, locale } from '../utils/localeContext';
 import { Link } from 'react-router-dom';
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, fbLogOut } from './../utils/firebase';
 import './Header.css';
 
@@ -41,12 +41,22 @@ function Header() {
   return (
     <header className={isScroll ? 'header-small' : ' '}>
       <h2>GraphiQL</h2>
-      <div className='locale' onClick={changeLocale}>{useLocale.name}</div>
+      <div className="locale" onClick={changeLocale}>
+        {useLocale.name}
+      </div>
       <nav>
-        <Link to={`/`} className="link">{useLocale.welcome}</Link>
-        <Link to={`/signin`} className={`link ${user ? 'hidden' : ''}`}>{useLocale.signIn}</Link>
-        <Link to={`/signup`} className={`link ${user ? 'hidden' : ''}`}>{useLocale.signUp}</Link>
-        <a className={`link  ${user ? '' : 'hidden'}`} onClick={signOut}>{useLocale.signOut}</a>
+        <Link to={`/`} className="link">
+          {useLocale.welcome}
+        </Link>
+        <Link to={`/signin`} className={`link ${user ? 'hidden' : ''}`}>
+          {useLocale.signIn}
+        </Link>
+        <Link to={`/signup`} className={`link ${user ? 'hidden' : ''}`}>
+          {useLocale.signUp}
+        </Link>
+        <a className={`link  ${user ? '' : 'hidden'}`} onClick={signOut}>
+          {useLocale.signOut}
+        </a>
       </nav>
     </header>
   );
