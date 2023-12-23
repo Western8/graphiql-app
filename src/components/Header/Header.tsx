@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LocaleContext, locale } from '../utils/localeContext';
+import { LocaleContext, localeList } from '../utils/localeContext';
 import { Link } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, fbLogOut } from './../utils/firebase';
 import './Header.css';
+import { ILocaleList } from '../utils/types';
 
 function Header() {
   const navigate = useNavigate();
@@ -29,12 +30,12 @@ function Header() {
   }
 
   function changeLocale() {
-    const keys = Object.keys(locale);
+    const keys = Object.keys(localeList);
     let ind = keys.indexOf(useLocale.id) + 1;
     if (ind >= keys.length) ind = 0;
     const idLocale = keys.at(ind);
     if (idLocale) {
-      setLocale(locale[idLocale]);
+      setLocale(localeList[idLocale as keyof ILocaleList]);
     }
   }
 

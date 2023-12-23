@@ -1,6 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface IReqHeader {
   key: string;
   value: string;
+}
+
+export interface IPropsSign {
+  isSignUp: boolean;
 }
 
 export interface IPropsPopup {
@@ -13,14 +19,15 @@ export interface IPrivateRouteProps {
   outlet: JSX.Element;
 }
 
-export interface IDataItem {
+export interface IDataSign {
   email: string;
   password: string;
 }
 
-export interface IDataProps {
-  data: IDataItem;
-  last: boolean;
+export interface IDataEditor {
+  query: string;
+  variables: string;
+  reqHeaders: IReqHeader[];
 }
 
 export interface ILocale {
@@ -56,4 +63,14 @@ export interface ILocale {
   yupPasswordLetter: string;
   yupPasswordCharacter: string;
   yupPasswordNumber: string;
+}
+
+export interface ILocaleList {
+  en: ILocale;
+  ru: ILocale;
+}
+
+export interface ILocaleContext {
+  useLocale: ILocale;
+  setLocale: Dispatch<SetStateAction<ILocale>>;
 }

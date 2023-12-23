@@ -1,7 +1,7 @@
 import { useState, useContext, useRef } from 'react';
 import { LocaleContext } from '../utils/localeContext';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { IReqHeader } from './../utils/types';
+import { IReqHeader, IDataEditor } from './../utils/types';
 import { url, query, queryDoc, variables } from './../utils/const';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -98,7 +98,7 @@ function Playground() {
     }
   }
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: IDataEditor) => {
     const reqHeadersObj: HeadersInit = {};
     data.reqHeaders.forEach((item: IReqHeader) => {
       reqHeadersObj[item.key] = item.value;

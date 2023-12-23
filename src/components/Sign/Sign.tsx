@@ -6,13 +6,13 @@ import { auth, fbLogIn, fbRegister } from './../utils/firebase';
 import { yupResolver } from '@hookform/resolvers/yup';
 import schema from './../utils/yup';
 import { LocaleContext } from '../utils/localeContext';
-import { IDataItem } from '../utils/types';
+import { IPropsSign, IDataSign, ILocale } from '../utils/types';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Popup from '../Popup/Popup';
 import './Sign.css';
 
-function Sign({ isSignUp }) {
+function Sign({ isSignUp }: IPropsSign) {
   const navigate = useNavigate();
   const { useLocale } = useContext(LocaleContext);
   const [popup, setPopup] = useState('');
@@ -21,7 +21,7 @@ function Sign({ isSignUp }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IDataItem>({ resolver: yupResolver(schema) });
+  } = useForm<IDataSign>({ resolver: yupResolver(schema) });
 
   const [user] = useAuthState(auth);
   /* const [user, loading, error] = useAuthState(auth); */
@@ -32,7 +32,7 @@ function Sign({ isSignUp }) {
     }
   });
 
-  const onSubmit = async (data: IDataItem) => {
+  const onSubmit = async (data: IDataSign) => {
     if (isSignUp) {
       const res = await fbRegister(data.email, data.password);
       if (res instanceof Error) {
@@ -59,18 +59,17 @@ function Sign({ isSignUp }) {
             <input id="email" type="text" {...register('email')} />
           </div>
           <div className="error">
-            {useLocale[errors.email?.message]
-              ? useLocale[errors.email?.message]
+            {useLocale[errors.email?.message as keyof ILocale]
+              ? useLocale[errors.email?.message as keyof ILocale]
               : errors.email?.message}
           </div>
           <div className="input-password">
             <label htmlFor="password">{useLocale.password}</label>
             <input id="password" type="password" {...register('password')} />
           </div>
-          {/* <div className="error">{errors.password?.message}</div> */}
           <div className="error">
-            {useLocale[errors.password?.message]
-              ? useLocale[errors.password?.message]
+            {useLocale[errors.password?.message as keyof ILocale]
+              ? useLocale[errors.password?.message as keyof ILocale]
               : errors.password?.message}
           </div>
           <button type="submit">{useLocale.submit}</button>

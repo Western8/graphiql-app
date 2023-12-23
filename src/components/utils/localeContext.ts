@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { ILocale } from './types';
+import React from 'react';
+import { ILocale, ILocaleList, ILocaleContext } from './types';
 
 export const localeEn: ILocale = {
   id: 'en',
@@ -71,17 +71,12 @@ export const localeRu: ILocale = {
   yupPasswordNumber: 'Пароль должен содержать как минимум 1 цифру',
 };
 
-export const locale = {
+export const localeList: ILocaleList = {
   en: localeEn,
   ru: localeRu,
 };
 
-interface ILocaleContext {
-  useLocale: ILocale;
-  setLocale: Dispatch<SetStateAction<ILocale>>;
-}
-
 export const LocaleContext = React.createContext<ILocaleContext>({
-  useLocale: locale['en'],
+  useLocale: localeList['en'],
   setLocale: () => {},
 });
