@@ -8,8 +8,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-// import { getFirestore, query, getDocs, collection, where, addDoc } from 'firebase/firestore';
+// import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, query, getDocs, collection, where, addDoc } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
