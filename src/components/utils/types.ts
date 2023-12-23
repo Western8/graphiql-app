@@ -1,113 +1,76 @@
-export interface IDataItem {
+import { Dispatch, SetStateAction } from 'react';
+
+export interface IReqHeader {
+  key: string;
+  value: string;
+}
+
+export interface IPropsSign {
+  isSignUp: boolean;
+}
+
+export interface IPropsPopup {
+  message: string;
+}
+
+export interface IPrivateRouteProps {
+  isAuth: boolean;
+  authPath: string;
+  outlet: JSX.Element;
+}
+
+export interface IDataSign {
   email: string;
   password: string;
 }
 
-export interface IDataProps {
-  data: IDataItem;
-  last: boolean;
+export interface IDataEditor {
+  query: string;
+  variables: string;
+  reqHeaders: IReqHeader[];
 }
 
-//export const url = "https://rickandmortyapi.com/graphql";
-export const url = "https://countries.trevorblades.com/";
+export interface ILocale {
+  id: string;
+  name: string;
+  prettify: string;
+  doc: string;
+  run: string;
+  welcome: string;
+  welcomeTitle: string;
+  welcomeDesc: string;
+  playground: string;
+  signUp: string;
+  signIn: string;
+  signOut: string;
+  email: string;
+  password: string;
+  submit: string;
+  go: string;
+  goPlayground: string;
+  endpoint: string;
+  variables: string;
+  headers: string;
+  headerKey: string;
+  headerValue: string;
+  show: string;
+  hide: string;
+  add: string;
+  text404: string;
+  yupEmailRequired: string;
+  yupPasswordRequired: string;
+  yupPasswordMin: string;
+  yupPasswordLetter: string;
+  yupPasswordCharacter: string;
+  yupPasswordNumber: string;
+}
 
-export const query1 = `
-  query {locations {
-      results {
-        id name type created
-      }
-    }
-  }
-`;
-//export const query = "query {locations {results {id name type created } } } ";
+export interface ILocaleList {
+  en: ILocale;
+  ru: ILocale;
+}
 
-export const query = `
-fragment FullType on __Type {
-  kind
-  name
-  fields(includeDeprecated: true) {
-    name
-    args {
-      ...InputValue
-    }
-    type {
-      ...TypeRef
-    }
-    isDeprecated
-    deprecationReason
-  }
-  inputFields {
-    ...InputValue
-  }
-  interfaces {
-    ...TypeRef
-  }
-  enumValues(includeDeprecated: true) {
-    name
-    isDeprecated
-    deprecationReason
-  }
-  possibleTypes {
-    ...TypeRef
-  }
+export interface ILocaleContext {
+  useLocale: ILocale;
+  setLocale: Dispatch<SetStateAction<ILocale>>;
 }
-fragment InputValue on __InputValue {
-  name
-  type {
-    ...TypeRef
-  }
-  defaultValue
-}
-fragment TypeRef on __Type {
-  kind
-  name
-  ofType {
-    kind
-    name
-    ofType {
-      kind
-      name
-      ofType {
-        kind
-        name
-        ofType {
-          kind
-          name
-          ofType {
-            kind
-            name
-            ofType {
-              kind
-              name
-              ofType {
-                kind
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-query IntrospectionQuery {
-  __schema {
-    queryType {
-      name
-    }
-    mutationType {
-      name
-    }
-    types {
-      ...FullType
-    }
-    directives {
-      name
-      locations
-      args {
-        ...InputValue
-      }
-    }
-  }
-}
-`;

@@ -1,71 +1,83 @@
-//import './Sign.css';
-//import { Link } from 'react-router-dom';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store/hooks';
 import { useForm } from 'react-hook-form';
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, fbLogIn, fbRegister } from './../utils/firebase';
 import { yupResolver } from '@hookform/resolvers/yup';
 import schema from './../utils/yup';
-import { IDataItem } from '../utils/types';
+import { LocaleContext } from '../utils/localeContext';
+import { IPropsSign, IDataSign, ILocale } from '../utils/types';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import Popup from '../Popup/Popup';
+import './Sign.css';
 
-function Sign( { isSignUp }) {
-  const dispatch = useAppDispatch();
+function Sign({ isSignUp }: IPropsSign) {
   const navigate = useNavigate();
-  //const [ isSignUp, setIsSignUp ] = useState(false);
+  const { useLocale } = useContext(LocaleContext);
+  const [popup, setPopup] = useState('');
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IDataItem>({ resolver: yupResolver(schema) });
+  } = useForm<IDataSign>({ resolver: yupResolver(schema) });
 
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
+  /* const [user, loading, error] = useAuthState(auth); */
 
   useEffect(() => {
     if (user) {
-      // console.log('1111111111 user', user);
       navigate('/playground', { replace: true });
     }
-  }, [user]);
+  });
 
-  const onSubmit = (data: IDataItem) => {
-    /*
-    const dataItem: IDataItem = {
-      email: data.email,
-      password: data.password,
-    };
-    */
-
+  const onSubmit = async (data: IDataSign) => {
     if (isSignUp) {
-      fbRegister(data.email, data.password);
+      const res = await fbRegister(data.email, data.password);
+      if (res instanceof Error) {
+        setPopup(res.message);
+        setTimeout(setPopup, 5000, '');
+      }
     } else {
-      fbLogIn(data.email, data.password);
+      const res = await fbLogIn(data.email, data.password);
+      if (res instanceof Error) {
+        setPopup(res.message);
+        setTimeout(setPopup, 5000, '');
+      }
     }
-    
-
-    //dispatch(setDataList({ dataItem }));
-    //navigate('/', { replace: true });
   };
 
   return (
-    <div className="sign">
-      <h1>{`${isSignUp ? 'Sign up' : 'Sign in'}`}</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-email">
-          <label htmlFor="email">E-mail</label>
-          <input id="email" type="text" {...register('email')} />
-          <p>{errors.email?.message}</p>
-        </div>
-        <div className="input-password">
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" {...register('password')} />
-          <p>{errors.password?.message}</p>
-        </div>
-        <input type="submit" />
-      </form>
-    </div>
+    <section className="sign">
+      <Header />
+      <h1>{`${isSignUp ? useLocale.signUp : useLocale.signIn}`}</h1>
+      <div className="form-sign-wrapper">
+        <form className="form-sign" onSubmit={handleSubmit(onSubmit)}>
+          <div className="input-email">
+            <label htmlFor="email">{useLocale.email}</label>
+            <input id="email" type="text" {...register('email')} />
+          </div>
+          <div className="error">
+            {useLocale[errors.email?.message as keyof ILocale]
+              ? useLocale[errors.email?.message as keyof ILocale]
+              : errors.email?.message}
+          </div>
+          <div className="input-password">
+            <label htmlFor="password">{useLocale.password}</label>
+            <input id="password" type="password" {...register('password')} />
+          </div>
+          <div className="error">
+            {useLocale[errors.password?.message as keyof ILocale]
+              ? useLocale[errors.password?.message as keyof ILocale]
+              : errors.password?.message}
+          </div>
+          <button type="submit">{useLocale.submit}</button>
+        </form>
+      </div>
+      <Popup message={popup} />
+      <Footer />
+    </section>
   );
 }
 

@@ -1,0 +1,153 @@
+main {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  min-height: 88%;
+  padding: 10px;
+}
+
+form {
+  width: 100%;
+}
+
+.editor-viewer {
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 80vh;
+  padding: 10px;
+  gap: 10px;
+}
+
+.buttons button {
+  width: 100%;
+  max-width: 500px;
+}
+
+.btn-pushed {
+  -webkit-box-shadow: 0px 0px 8px 8px rgba(78, 78, 31, 0.56) inset;
+  -moz-box-shadow: 0px 0px 8px 8px rgba(78, 78, 31, 0.56) inset;
+  box-shadow: 0px 0px 8px 8px rgba(78, 78, 31, 0.56) inset;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  gap: 10px;
+}
+
+.input-endpoint {
+  display: flex;
+  gap: 20px;
+}
+
+#endpoint {
+  flex-grow: 1;
+}
+
+.input-title {
+  min-width: 100px;
+  text-align: left;
+}
+
+.req-headers-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.req-headers-title,
+.variables-title {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.req-headers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+  margin-top: 5px;
+  gap: 3px;
+}
+
+.req-headers input {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.req-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.query {
+  width: 100%;
+  flex-grow: 1;
+}
+
+.variables {
+  min-height: 150px;
+  width: 100%;
+}
+
+.viewer {
+  width: 45%;
+}
+
+.doc {
+  width: 40%;
+  margin: 0px 5px;
+  padding: 10px;
+  text-align: start;
+  color: var(--color-text-dark);
+  background-color: var(--color-textarea);
+}
+
+
+@media (max-width: 1024px) {
+  .editor-viewer {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .buttons {
+    height: auto;
+  }
+
+  .buttons h2 {
+    margin: 0px;
+  }
+
+  .editor,
+  .viewer,
+  .query,
+  .doc,
+  .variables {
+    width: auto;
+  }
+}
+
+
+@media (max-width: 420px) {
+  main {
+    margin-top: 140px;
+  }
+  
+  .input-endpoint,
+  .input-title,
+  .req-headers-title,
+  .variables-title {
+    gap: 3px;
+  }
+}

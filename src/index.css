@@ -2,10 +2,19 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
+  
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --color-text: #FFFFFF;
+  --color-text-dark: #000000;
+  --color-link: #646cff;
+  --color-link-hover: #8d92eb;
+  --color-background: #2779A7;
+  --color-background-dark1: linear-gradient(21deg, #750a79, #134e70);
+  --color-background-dark2: linear-gradient(21deg, #47084b, #092f47);
+  --color-textarea: #bde5fc;
+  --color-btn: #FBEEC1;
+  --color-btn-hover: #8D8741;
+  --color-error: #FF0000;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,17 +24,22 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color-text);
   text-decoration: inherit;
 }
+
 a:hover {
-  color: #535bf2;
+  color: var(--color-link-hover);
+}
+
+html {
+  box-sizing: border-box;
+  background-color: var(--color-background);
 }
 
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -45,24 +59,74 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  background-color: var(--color-btn);
+  transition: 0.5s;
 }
+
 button:hover {
   border-color: #646cff;
+  background-color: var(--color-btn-hover);
+  transition: 1s;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.btn-small {
+  min-width: 120px;
+  padding: 0.2em 2em;
+}
+
+.btn-del {
+  padding: 0.2em 0.6em;
+}
+
+input {
+  font-size: 16px;
+  background-color: var(--color-textarea);
+}
+
+.link {
+  margin: 20px;
+  font-size: 22px;
+}
+
+.link:hover {
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+textarea {
+  background-color: var(--color-textarea);
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  textarea {
+    min-height: 500px;
   }
-  a:hover {
-    color: #747bff;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.2em;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .link {
+    margin: 10px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .btn-small {
+    min-width: 90px;
+    padding: 0.2em 1em;
   }
 }

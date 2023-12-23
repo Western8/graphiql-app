@@ -1,0 +1,77 @@
+.sign {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  padding: 10px;
+  min-height: 88%;
+  gap: 50px;
+}
+
+.form-sign-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.form-sign {
+  max-width: 500px;
+  padding: 40px;
+  border-radius: 20px;
+  font-size: 24px;
+  background: var(--color-background-dark1);
+  -webkit-box-shadow: 23px 24px 20px 0px rgba(34, 60, 80, 0.7);
+  -moz-box-shadow: 23px 24px 20px 0px rgba(34, 60, 80, 0.7);
+  box-shadow: 23px 24px 20px 0px rgba(34, 60, 80, 0.7);
+}
+
+.form-sign label {
+  min-width: 150px;
+  padding: 20px;
+  text-align: left;
+}
+
+.form-sign button {
+  min-width: 200px;
+  margin-top: 20px;
+}
+
+.input-email,
+.input-password {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.error {
+  color: var(--color-error);
+  margin-left: 20px;
+  text-align: start;
+}
+
+@media (max-width: 660px) {
+  .form-sign {
+    padding: 40px 20px;
+  }
+
+  .form-sign label {
+    min-width: 110px;
+    padding: 20px 0px;
+  }
+}
+
+@media (max-width: 420px) {
+  .sign {
+    margin-top: 140px;
+  }
+
+  .form-sign {
+    padding: 40px 5px;
+    font-size: 18px;
+  }
+
+  .form-sign label {
+    min-width: 90px;
+  }
+}
