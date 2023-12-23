@@ -49,7 +49,7 @@
     }
   },
   "lint-staged": {
-    "*.(ts|tsx)": [
+    "**/*.{ts,tsx}": [
       "npm run lint",
       "npm run fix"
     ]
