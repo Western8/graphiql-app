@@ -107,6 +107,13 @@ function Playground() {
     if (variables.trim() === '') {
       variables = '{}';
     }
+    try {
+      JSON.parse(variables);
+    } catch (err) {
+      setPopup(`Incorrect variables format: ${err}`);
+      setTimeout(setPopup, 5000, '');
+      variables = '{}';
+    }
     if (endpointRef.current?.value) {
       const res = await makeRequest(
         endpointRef.current.value,
@@ -184,15 +191,12 @@ function Playground() {
           </div>
           <textarea
             className={`variables ${isVariablesVisible ? '' : 'hidden'}`}
+            defaultValue={variables}
             {...register('variables')}
-          >
-            <pre>{variables}</pre>
-          </textarea>
-          <textarea className="query" {...register('query')}>
-            <pre>{query}</pre>
-          </textarea>
+          ></textarea>
+          <textarea className="query" defaultValue={query} {...register('query')}></textarea>
         </div>
-        <textarea className="viewer" value={dataViewer}>
+        <textarea className="viewer" value={dataViewer} readOnly>
           <pre></pre>
         </textarea>
       </form>
