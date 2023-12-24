@@ -223,6 +223,7 @@ function prettify(str: string) {
   if (!str) return str;
   const ident = (level: number) => ' '.repeat(level * 2);
   const newLineChar = '{},[]';
+  const thisLineChar = '},]():';
   const spaceChar = ':';
   let arr = str.replaceAll('\n', ' ').split(' ');
   arr = arr
@@ -234,7 +235,12 @@ function prettify(str: string) {
   const arrNew: string[] = [];
   arr.forEach((item, index) => {
     let itemNew = item;
-    if (newLineChar.includes(item)) {
+    if (
+      newLineChar.includes(item) ||
+      (item === ' ' &&
+        !thisLineChar.includes(arr[index - 1]) &&
+        !thisLineChar.includes(arr[index + 1]))
+    ) {
       itemNew = `${item}\n${ident(level)}`;
     }
     if (spaceChar.includes(item)) {
