@@ -11,6 +11,6 @@ describe('Renders Header correctly', () => {
       </BrowserRouter>
     );
     const h2 = await screen.getByRole('heading', { level: 2 });
-    expect(h2.textContent).toEqual('GraphiQL1');
+    expect(h2.textContent).toEqual('GraphiQL');
   });
 });
