@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-//import { describe, it, vi, expect } from 'vitest';
-//import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+// import { describe, it, vi, expect } from 'vitest';
+// import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Header from './Header';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -35,7 +35,8 @@ describe('Renders Header correctly', () => {
     const el = await screen.getByText(/Sign in/i);
     expect(el).toBeDefined();
   });
-  /*it('Should call onclick function for change locale', async () => {
+  /*
+  it('Should call onclick function for change locale', async () => {
     render(
       <BrowserRouter>
         <Header />
@@ -45,10 +46,10 @@ describe('Renders Header correctly', () => {
     const localeEn = await screen.getByText(/En/i);
     fireEvent.click(localeEn);
     await waitFor(async () => {
-      const localeRu = screen.getByText('Ru');
+      const localeRu = screen.getByText(/Ru/i);
       // const localeRu = screen.getByText(/Главная/i);
       // const localeRu = await screen.findByText(/Ru/i);
-      console.log('333333333 localeRu ', localeRu);      
+      console.log('333333333 localeRu ', localeRu);
       expect(localeRu).toBeDefined();
     })
     //expect(true).toBeDefined();

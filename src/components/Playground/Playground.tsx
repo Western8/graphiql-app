@@ -144,7 +144,7 @@ function Playground() {
           </button>
           <button type="submit">{useLocale.run}</button>
         </div>
-        <div className={`doc ${isDocVisible ? '' : 'hidden'}`}>
+        <div className={`doc ${isDocVisible ? '' : 'hidden'}`} data-testid="doc-test">
           <pre>{dataDoc}</pre>
         </div>
         <div className="editor">
@@ -219,7 +219,7 @@ function makeRequest(url: string, headers: HeadersInit, query: string, variables
     .catch((err) => err);
 }
 
-function prettify(str: string) {
+export function prettify(str: string): string {
   if (!str) return str;
   const ident = (level: number) => ' '.repeat(level * 2);
   const newLineChar = '{},[]';
