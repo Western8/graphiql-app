@@ -1,6 +1,9 @@
-import { useState, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { LocaleContext } from '../utils/localeContext';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from './../utils/firebase';
 import { IReqHeader, IDataEditor } from './../utils/types';
 import { url, query, queryDoc, variables } from './../utils/const';
 import Header from '../Header/Header';
@@ -43,6 +46,14 @@ function Playground() {
   const [isVariablesVisible, setIsVariablesVisible] = useState(false);
   const { useLocale } = useContext(LocaleContext);
   const [popup, setPopup] = useState('');
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/welcome', { replace: true });
+    }
+  }, [user, navigate]);
 
   const reqHeadersEl = fields.map((item, index) => {
     return (
