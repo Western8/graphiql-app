@@ -9,7 +9,7 @@ export const localeEn: ILocale = {
   run: 'Run',
   welcome: 'Welcome',
   welcomeTitle: 'Welcome to GraphiQL-app !',
-  welcomeDesc: 'GraphiQL is a playground/IDE for graphQL requests.',
+  welcomeDesc: `We are OceanWeb team - fascinated web developers graduated from RS-School. We are glad to present for you our project GraphiQL-application. GraphiQL is a playground/IDE for graphQL requests.`,
   playground: 'Playground',
   signUp: 'Sign up',
   signIn: 'Sign in',
@@ -44,7 +44,8 @@ export const localeRu: ILocale = {
   run: 'Старт',
   welcome: 'Главная',
   welcomeTitle: 'Добро пожаловать в приложение GraphiQL !',
-  welcomeDesc: 'GraphiQL - песочница для выполнения graphQL-запросов.',
+  welcomeDesc:
+    'Мы - OceanWeb - увлеченная команда веб-разработчиковб выпускников RS-School. Рады представить для Вас наш проект, веб-приложение GraphiQL. GraphiQL - песочница для выполнения graphQL-запросов.',
   playground: 'Песочница',
   signUp: 'Регистрация',
   signIn: 'Вход',

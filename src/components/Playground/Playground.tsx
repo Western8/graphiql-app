@@ -1,6 +1,9 @@
-import { useState, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { LocaleContext } from '../utils/localeContext';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from './../utils/firebase';
 import { IReqHeader, IDataEditor } from './../utils/types';
 import { url, query, queryDoc, variables } from './../utils/const';
 import Header from '../Header/Header';
@@ -12,14 +15,7 @@ function Playground() {
   const initReqHeaders = [];
   initReqHeaders.push({ key: 'Content-type', value: 'application/json' });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    control,
-    // formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, setValue, getValues, control } = useForm({
     defaultValues: {
       reqHeaders: initReqHeaders,
       query,
@@ -43,6 +39,14 @@ function Playground() {
   const [isVariablesVisible, setIsVariablesVisible] = useState(false);
   const { useLocale } = useContext(LocaleContext);
   const [popup, setPopup] = useState('');
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/welcome', { replace: true });
+    }
+  }, [user, navigate]);
 
   const reqHeadersEl = fields.map((item, index) => {
     return (
@@ -107,6 +111,13 @@ function Playground() {
     if (variables.trim() === '') {
       variables = '{}';
     }
+    try {
+      JSON.parse(variables);
+    } catch (err) {
+      setPopup(`Incorrect variables format: ${err}`);
+      setTimeout(setPopup, 5000, '');
+      variables = '{}';
+    }
     if (endpointRef.current?.value) {
       const res = await makeRequest(
         endpointRef.current.value,
@@ -137,7 +148,7 @@ function Playground() {
           </button>
           <button type="submit">{useLocale.run}</button>
         </div>
-        <div className={`doc ${isDocVisible ? '' : 'hidden'}`}>
+        <div className={`doc ${isDocVisible ? '' : 'hidden'}`} data-testid="doc-test">
           <pre>{dataDoc}</pre>
         </div>
         <div className="editor">
@@ -184,15 +195,12 @@ function Playground() {
           </div>
           <textarea
             className={`variables ${isVariablesVisible ? '' : 'hidden'}`}
+            defaultValue={variables}
             {...register('variables')}
-          >
-            <pre>{variables}</pre>
-          </textarea>
-          <textarea className="query" {...register('query')}>
-            <pre>{query}</pre>
-          </textarea>
+          ></textarea>
+          <textarea className="query" defaultValue={query} {...register('query')}></textarea>
         </div>
-        <textarea className="viewer" value={dataViewer}>
+        <textarea className="viewer" value={dataViewer} readOnly>
           <pre></pre>
         </textarea>
       </form>
@@ -215,10 +223,11 @@ function makeRequest(url: string, headers: HeadersInit, query: string, variables
     .catch((err) => err);
 }
 
-function prettify(str: string) {
+export function prettify(str: string): string {
   if (!str) return str;
   const ident = (level: number) => ' '.repeat(level * 2);
   const newLineChar = '{},[]';
+  const thisLineChar = '},]():';
   const spaceChar = ':';
   let arr = str.replaceAll('\n', ' ').split(' ');
   arr = arr
@@ -230,11 +239,16 @@ function prettify(str: string) {
   const arrNew: string[] = [];
   arr.forEach((item, index) => {
     let itemNew = item;
-    if (newLineChar.includes(item)) {
+    if (
+      newLineChar.includes(item) ||
+      (item === ' ' &&
+        !thisLineChar.includes(arr[index - 1]) &&
+        !thisLineChar.includes(arr[index + 1]))
+    ) {
       itemNew = `${item}\n${ident(level)}`;
     }
     if (spaceChar.includes(item)) {
-      itemNew = `${itemNew} `; //\u00A0
+      itemNew = `${itemNew} `;
     }
     if (item === '{' || item === '[') {
       level += 1;
