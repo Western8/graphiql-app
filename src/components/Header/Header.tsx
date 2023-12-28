@@ -36,8 +36,6 @@ function Header() {
     const idLocale = keys.at(ind);
     if (idLocale) {
       setLocale(localeList[idLocale as keyof ILocaleList]);
-      //console.log('11111111111TESTTTTTTTTTTTTTTTTTT change locale click idLocale', idLocale);
-      //console.log('useLocale ', useLocale);
     }
   }
 

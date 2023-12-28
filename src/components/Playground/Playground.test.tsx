@@ -1,7 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-// import { describe, it, vi, expect } from 'vitest';
-// import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Playground, { prettify } from './Playground';
 import { BrowserRouter } from 'react-router-dom';
 import { mockQuery, mockQueryPrettified } from '../../test/mocks';
@@ -40,20 +38,4 @@ describe('Renders Playground correctly', () => {
     const headers = await screen.findAllByPlaceholderText('header-key');
     expect(headers).toHaveLength(3);
   });
-  /*
-    it('Should show doc section on click doc', async () => {
-      render(
-        <BrowserRouter>
-          <Playground />
-        </BrowserRouter>
-      );
-      const btnDoc = await screen.getByRole('button', { name: 'Doc'});
-      fireEvent.click(btnDoc);
-      await waitFor(async () => {
-        const divDoc = screen.getByTestId('doc-test');
-        //expect(divDoc).toBeDefined();
-         expect(divDoc.getAttribute('class')).toMatch('hidden');
-      })
-    });
-  */
 });

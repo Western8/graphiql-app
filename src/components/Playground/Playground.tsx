@@ -15,14 +15,7 @@ function Playground() {
   const initReqHeaders = [];
   initReqHeaders.push({ key: 'Content-type', value: 'application/json' });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    control,
-    // formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, setValue, getValues, control } = useForm({
     defaultValues: {
       reqHeaders: initReqHeaders,
       query,
@@ -255,7 +248,7 @@ export function prettify(str: string): string {
       itemNew = `${item}\n${ident(level)}`;
     }
     if (spaceChar.includes(item)) {
-      itemNew = `${itemNew} `; //\u00A0
+      itemNew = `${itemNew} `;
     }
     if (item === '{' || item === '[') {
       level += 1;

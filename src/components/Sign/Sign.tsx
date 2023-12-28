@@ -24,7 +24,6 @@ function Sign({ isSignUp }: IPropsSign) {
   } = useForm<IDataSign>({ resolver: yupResolver(schema) });
 
   const [user] = useAuthState(auth);
-  /* const [user, loading, error] = useAuthState(auth); */
 
   useEffect(() => {
     if (user) {
